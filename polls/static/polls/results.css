@@ -1,0 +1,37 @@
+/* Question title */
+h3 {
+    color: #444;
+    margin-top: 25px;
+    margin-bottom: 10px;
+}
+
+/* Choice list */
+ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+ul li {
+    background: #ffffff;
+    padding: 12px 15px;
+    margin-bottom: 10px;
+    border-radius: 6px;
+    border-left: 5px solid #28a745;   /* green stripe */
+    font-size: 16px;
+}
+
+/* Back link */
+a {
+    color: #007bff;
+    text-decoration: none;
+    font-size: 16px;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* Extra spacing */
+p {
+    margin-top: 20px;
+}

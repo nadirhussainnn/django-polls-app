@@ -1,0 +1,61 @@
+{% load static %}
+{% load polls_extras %}
+<link rel="stylesheet" type="text/css" href="{% static 'polls/index.css' %}">
+
+{% include 'polls/header.html' with header_text="Welcome to the Polls App!" %}
+
+{% if polls %}
+<div class ="card-container">
+    {% for poll in polls %}
+    <div class="card">
+        <img src="{% static 'polls/images/' %}{{ poll.random_image }}" alt="Poll Image" class="card-image" width="60" height="60">
+        <h2>{{ poll.title }}</h2>
+        <p class="countdown" data-expiry="{{ poll.expiry|date:'Y-m-d' }}"></p>
+        <a href="{% url 'detail' poll.id %}" class="link_button">View Details</a>      
+    </div>
+    {% endfor %}
+</div>
+{% else %}
+    <p>No polls are available.</p>
+{% endif %}
+
+
+<script>
+    function fullCountdown() {
+        const elements = document.querySelectorAll(".countdown");
+
+        elements.forEach(el => {
+            const expiryStr = el.dataset.expiry;
+            if (!expiryStr) {
+                el.textContent = "";
+                return;
+            }
+
+            // Parse expiry date (use end of day)
+            const expiry = new Date(expiryStr + "T23:59:59");
+
+            function update() {
+                const now = new Date();
+                const diff = expiry - now;
+
+                if (diff <= 0) {
+                    el.textContent = "Poll closed";
+                    return;
+                }
+
+                // Convert ms → D/H/M/S
+                const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+                const minutes = Math.floor((diff / (1000 * 60)) % 60);
+                const seconds = Math.floor((diff / 1000) % 60);
+
+                el.innerHTML = `Poll Closing in <br /> <span style="font-weight:bold; color:red;">${days}d ${hours}h ${minutes}m ${seconds}s</span>`;
+            }
+
+            update();
+            setInterval(update, 1000);
+        });
+    }
+
+    document.addEventListener("DOMContentLoaded", fullCountdown);
+</script>

@@ -1,0 +1,18 @@
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'polls/results.css' %}">
+
+{% load polls_extras %}
+{% include "polls/header.html" with header_text="Results for: "|add:poll.title %}
+
+{% for question in poll.question_set.all %}
+    <h3>{{ question.text }}</h3>
+    <ul>
+        {% for choice in question.choice_set.all %}
+            <li>
+                {{ choice.choice_text }} — {{ choice.votes }} {{ choice.votes|pluralize_votes }}
+            </li>
+        {% endfor %}
+    </ul>
+{% endfor %}
+
+<p><a href="{% url 'index' %}">Back to poll</a></p>
