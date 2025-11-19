@@ -1,6 +1,5 @@
 from django.db import models
-
-# Create your models here.
+from django.utils import timezone
 
 poll_status = [
     ("open", "open"),
@@ -24,6 +23,9 @@ class Poll(models.Model):
     
     def is_open(self):
         return self.status == "open"
+    
+    def is_expired(self):
+        return self.expiry < timezone.localdate()
 
 
 class Question(models.Model):
