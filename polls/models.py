@@ -1,28 +1,19 @@
 from django.db import models
 from django.utils import timezone
+from datetime import timedelta
+ 
 
-poll_status = [
-    ("open", "open"),
-    ("closed", "closed")
-]
+def expiry_default():
+    return timezone.localdate() + timedelta(days=3)
 
 
 class Poll(models.Model):
-    title = models.CharField(max_length=100)
-    description = models.CharField(max_length=300)
-    created_at = models.DateField("created at")
-    expiry = models.DateField("expiry")
-    
-    status = models.CharField(
-        choices=poll_status,
-        default="open"
-    )
+    title = models.CharField(max_length=100, blank=False, null=False)
+    created_at = models.DateField("created at", default=timezone.localdate)
+    expiry = models.DateField("expiry", default=expiry_default)
 
     def __str__(self):
         return self.title
-    
-    def is_open(self):
-        return self.status == "open"
     
     def is_expired(self):
         return self.expiry < timezone.localdate()
@@ -30,7 +21,7 @@ class Poll(models.Model):
 
 class Question(models.Model):
     poll = models.ForeignKey(Poll, on_delete=models.CASCADE)
-    text = models.CharField(max_length=200)
+    text = models.CharField(max_length=300, blank=False, null=False)
 
     def __str__(self):
         return self.text
@@ -38,7 +29,7 @@ class Question(models.Model):
 
 class Choice(models.Model):
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
-    choice_text = models.CharField(max_length=200)
+    choice_text = models.CharField(max_length=200, blank=False, null=False)
     votes = models.IntegerField(default=0)
 
     def __str__(self):

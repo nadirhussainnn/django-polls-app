@@ -26,7 +26,7 @@
     <p class="countdown" data-expiry="{{ poll.expiry|date:'Y-m-d' }}"></p>
     {% endif %}
 
-    {% if poll.status == "open" and not poll.is_expired %}
+    {% if not poll.is_expired %}
     <a href="{% url 'detail' poll.id %}" class="link_button">View Details</a>
     {% else %}
     <a href="{% url 'results' poll.id %}" class="primary_button">View Results</a>
