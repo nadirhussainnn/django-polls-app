@@ -13,7 +13,7 @@ class Poll(models.Model):
     expiry = models.DateField("expiry", default=expiry_default)
 
     def __str__(self):
-        return self.title
+        return self.title.upper()
     
     def is_expired(self):
         return self.expiry < timezone.localdate()
