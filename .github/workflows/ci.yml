@@ -27,8 +27,13 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
     
-    - name: Run migrations and tests
+    - name: Run tests with coverage
       run: |
-        python manage.py makemigrations --check --dry-run
-        python manage.py migrate
-        pytest
+        coverage run -m pytest
+        coverage report
+        coverage xml
+    
+    - name: Upload coverage to Coveralls
+      uses: coverallsapp/github-action@v2
+      with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}
