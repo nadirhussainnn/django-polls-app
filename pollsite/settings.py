@@ -27,7 +27,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = [
     "localhost",
-    "django-polls-app-83pc.onrender.com"
+    ".onrender.com"
 ]
 
 
