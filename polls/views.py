@@ -4,6 +4,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 
 from polls.models import Poll, Question, Choice
 
+
 class PollListView(generic.ListView):
     model = Poll
     template_name = "polls/index.html"     
@@ -47,7 +48,7 @@ def vote(request, poll_id):
     poll = get_object_or_404(Poll, id=poll_id)
     
     if request.method != "POST":
-        return redirect("detail", poll_id=poll.id)
+        return redirect("detail", poll.id)
 
     try:
         question_id = int(request.POST["question_id"])
@@ -67,5 +68,5 @@ def vote(request, poll_id):
     selected_choice.votes += 1
     selected_choice.save()
 
-    # Redirect to results page (PRG pattern)
+    # Redirect to results page 
     return redirect("results", pk=poll.id)
